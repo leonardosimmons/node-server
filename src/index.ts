@@ -5,17 +5,23 @@ if (process.env.NODE_ENV !== 'production') {
 
 import Express from 'express';
 import Path from 'path';
-
 import { consoleText } from './helpers/definitions'; 
+
+import headerRoutes from './routes/headers';
+import errorRoutes from './routes/headers';
 
 const server = Express();
 const PORT: string = process.env.PORT as string || process.env.DEV_PORT as string;
+
 
 /* ---------------------  PARSERS  -------------------- */
 server.use(Express.json());
 server.use(Express.static(Path.join(__dirname, 'public')));
 
+
 /* ---------------------  ROUTES  --------------------- */
+server.use(headerRoutes);
+server.use(errorRoutes);
 
 
 /* ---------------------  SERVER  --------------------- */
