@@ -1,7 +1,5 @@
 
-if (process.env.NODE_ENV !== 'production') { 
-  require('dotenv').config();
-}
+if (process.env.NODE_ENV !== 'production') { require('dotenv').config(); }
 
 import Express from 'express';
 import Path from 'path';
@@ -23,18 +21,6 @@ server.use(Express.static(Path.join(__dirname, 'public')));
 server.use(headerRoutes);
 server.use(errorRoutes);
 
-const test = "apples, bananas, pears, bears, pineapple";
-const res = test.split(/[, ]+/);
-const len = res.length;
-let str = '?';
-
-if (res.length > 1) {
-  for (let i = 0; i < res.length - 1; i++) {
-    str = str.concat(' ?');
-  }
-}
-
-console.log(res);
 
 /* ---------------------  SERVER  --------------------- */
 server.listen(PORT, () => {
