@@ -6,7 +6,7 @@ import Path from 'path';
 import { consoleText } from './helpers/definitions'; 
 
 import headerRoutes from './routes/headers';
-import errorRoutes from './routes/headers';
+import errorRoutes from './routes/error';
 
 const server = Express();
 const PORT: string = process.env.PORT as string || process.env.DEV_PORT as string;

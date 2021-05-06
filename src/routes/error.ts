@@ -8,8 +8,8 @@ const router: Express.Router = Express.Router();
 
 router.use((error: HttpError, _: Express.Request, res: Express.Response) => {
   console.log(consoleText.red, `[error] ${ error.log ? error.log : error.message }`);
-  const status = error.statusCode;
-  const message = error.log? error.log : error.message;
+  const status: number = error.statusCode!;
+  const message: string = error.log? error.log : error.message;
 
   res.status(status).json({
     message: message
