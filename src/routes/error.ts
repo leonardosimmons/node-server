@@ -6,14 +6,23 @@ import { HttpError } from '../utils/types';
 const router: Express.Router = Express.Router();
 
 
-router.use((error: HttpError, _: Express.Request, res: Express.Response) => {
+router.use((error: HttpError, _: Express.Request, res: Express.Response): void => {
   console.log(consoleText.red, `[error] ${ error.log ? error.log : error.message }`);
   const status: number = error.statusCode!;
-  const message: string = error.log? error.log : error.message;
+  const message: string = error.message;
+  const log: string | undefined = error.log;
 
-  res.status(status).json({
-    message: message
-  });
+  if (log) {
+    res.status(status).json({
+      message: message,
+      log: log
+    });
+  } 
+  else {
+    res.status(status).json({
+      message: message
+    });
+  }
 });
 
 export default router;

@@ -1,5 +1,4 @@
 
-import db from '../utils/database';
 import { Pool } from 'mysql2/promise';
 import { Combinable } from '../utils/types';
 
@@ -16,7 +15,7 @@ class DatabaseController implements DatabaseControllerInterface
 {
   private _db: Pool;
 
-  constructor() {
+  constructor(db: Pool) {
     this._db = db;
   };
 
