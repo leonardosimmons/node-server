@@ -6,6 +6,10 @@ import { HttpError } from '../utils/types';
 const router: Express.Router = Express.Router();
 
 
+router.use('/favicon.ico', (_: Express.Request, res: Express.Response): void => {
+  res.status(204);
+});
+
 router.use((error: HttpError, _: Express.Request, res: Express.Response): void => {
   console.log(consoleText.red, `[error] ${ error.log ? error.log : error.message }`);
   const status: number = error.statusCode!;

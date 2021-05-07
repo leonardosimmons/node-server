@@ -1,10 +1,13 @@
+import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 //* -------------------  GENERAL  ------------------- *//
 export type NamedLink = {
   name: string;
   link: string;
-}
+};
 
+
+export type SqlData = RowDataPacket | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader;
 
 //* -------------------  NAVBAR  ------------------- *//
 export type NavbarToken = {
