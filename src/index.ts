@@ -7,6 +7,7 @@ import { consoleText } from './helpers/definitions';
 
 import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
+import astoriaRoutes from './servers/astoria/router';
 
 const server = Express();
 const PORT: string = process.env.PORT as string || process.env.DEV_PORT as string;
@@ -19,6 +20,7 @@ server.use(Express.static(Path.join(__dirname, 'public')));
 
 /* ---------------------  ROUTES  --------------------- */
 server.use(headerRoutes);
+server.use('/astoria', astoriaRoutes);
 server.use(errorRoutes);
 
 
