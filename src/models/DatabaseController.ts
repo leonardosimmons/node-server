@@ -1,14 +1,7 @@
 
 import { Pool } from 'mysql2/promise';
 import { Combinable } from '../utils/types';
-
-interface DatabaseControllerInterface 
-{
-  delete: (table: string, id: Combinable) => Promise<any>;
-  fetchAll: (table: string) => Promise<any>;
-  fetchById: (table: string, id: Combinable) => Promise<any>;
-  save: (table: string, rows: string, holder: string, values: any) => Promise<any>;
-};
+import { DatabaseControllerInterface } from '../utils/interfaces';
 
 
 class DatabaseController implements DatabaseControllerInterface
@@ -20,7 +13,7 @@ class DatabaseController implements DatabaseControllerInterface
   };
 
   public delete(table: string, id: Combinable) {
-    return this._db.execute(`DROP * FROM ${table} WHERE ${table}._id = ?`, [ id ]);
+    return this._db.execute(`DROP * FROM ${table} WHERE ${table}.id = ?`, [ id ]);
   };
 
   public fetchAll(table: string) {
@@ -28,7 +21,7 @@ class DatabaseController implements DatabaseControllerInterface
   };
 
   public fetchById(table: string, id: Combinable) {
-    return this._db.execute(`SELECT * FROM ${table} WHERE ${table}._id = ?`, [ id ]);
+    return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.id = ?`, [ id ]);
   };
 
   public save<T>(table: string, rows: string, values: T) {
