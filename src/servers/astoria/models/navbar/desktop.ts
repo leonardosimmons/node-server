@@ -12,32 +12,21 @@ class DesktopNavbar implements DesktopNavbarInterface
   private _logo: NamedLink;
   private _tabs: NavbarToken[];
   private _profiles: NavbarToken[];
-  private _data: DesktopNavBarData;
   private _db: DatabaseController;
 
 
-  constructor() {
+  constructor() 
+  {
     this._info = [];
     this._logo = { name: '', link: ''};
     this._tabs = [];
     this._profiles = [];
-    this._data = {
-      info: [],
-      menu: {
-        logo: { name: '', link: ''},
-        tabs: []
-      },
-      profiles: []
-    };
     this._db = new DatabaseController(db);
   };
 
-  get data() {
-    return this._data;
-  }
-  
-  
-  private sort(data: SqlData) {
+
+  private sort(data: SqlData): void 
+  {
     if (data instanceof Array && data.length > 0) {
       data.forEach((element: any) => { 
         switch(element.type)
@@ -61,11 +50,10 @@ class DesktopNavbar implements DesktopNavbarInterface
     }
   };
 
-  public fetchData() {
-    return this._db.fetchAll('desktop_navbar');
-  };
+  public fetchData(): Promise<any> { return this._db.fetchAll('desktop_navbar'); };
 
-  public createToken(data: SqlData) {
+  public createToken(data: SqlData): DesktopNavBarData 
+  {
     this.sort(data);
 
     const token: DesktopNavBarData = {

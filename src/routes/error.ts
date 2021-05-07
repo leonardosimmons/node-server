@@ -6,7 +6,7 @@ import { HttpError } from '../utils/types';
 const router: Express.Router = Express.Router();
 
 
-router.use('/favicon.ico', (_: Express.Request, res: Express.Response): void => {
+router.use('/favicon.ico', (_: Express.Request, res: Express.Response, next: Express.NextFunction): void => {
   res.status(204);
 });
 

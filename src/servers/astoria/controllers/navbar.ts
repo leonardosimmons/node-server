@@ -2,8 +2,7 @@
 import Express from 'express';
 import { HttpError } from '../../../utils/types';
 import { DesktopNavbar } from '../models/navbar/desktop';
-import { navbar } from '../utils/keys';
-import { NavbarToken, SqlData } from '../utils/types';
+import { DesktopNavBarData } from '../utils/types';
 
 
 export async function getDesktopData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
@@ -12,7 +11,7 @@ export async function getDesktopData(_: Express.Request, res: Express.Response, 
 
   try {
     const [ data ] = await desktop.fetchData();
-    const token = desktop.createToken(data);
+    const token: DesktopNavBarData = desktop.createToken(data);
     
     res.status(200).json({
       message: 'Data successfully retrieved from database',
