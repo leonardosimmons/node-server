@@ -7,5 +7,8 @@ const router: Express.Router = Express.Router();
 // Desktop
 router.get('/desktop', navbar.getDesktopData);
 
+// Mobile
+router.get('/mobile', navbar.getMobileData);
+
 
 export default router;

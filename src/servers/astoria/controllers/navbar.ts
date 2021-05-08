@@ -25,3 +25,16 @@ export async function getDesktopData(_: Express.Request, res: Express.Response, 
     next(error);
   }
 };
+
+export async function getMobileData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
+{
+  try {
+
+  }
+  catch(err) {
+    const error: HttpError = err;
+    error.statusCode = 502;
+    error.log = ('unable to retrieve mobile navbar data from database');
+    next(error);
+  }
+};
