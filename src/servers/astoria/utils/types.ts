@@ -13,6 +13,7 @@ export type SqlData = RowDataPacket | RowDataPacket[] | RowDataPacket[][] | OkPa
 export type IndexPageHeaderData = {
   id: string;
   heading: string;
+  textAbove: string;
   btn: {
     text: string;
     link: string;

@@ -14,22 +14,39 @@ class IndexPage
     this._db = new DatabaseController(db);
   };
 
-  set headers(h: IndexPageHeaderData[]) 
-  {
-    this._headers = h;
-  };
+  get data() {
+    return {
+      headers: this._headers
+    };
+  }
 
-  public fetchHeaders(): Promise<any>
-  {
+
+  public fetchHeaders(): Promise<any> {
     return this._db.fetchByType('headers', 'index');
   };
 
+  public fetchPageData() {
+    
+  };
 
-  public createToken()
+  public setHeaders(data: SqlData): void
   {
-    const token: IndexPageHeaderData[] = this._headers;
+    if (data instanceof Array && data.length > 0) {
+      data.forEach((header: any) => {
+        const token = {
+          id: header.lineOne,
+          heading: header.heading,
+          textAbove: header.lineTwo,
+          btn: {
+            text: header.btnText,
+            link: header.btnLink
+          },
+          video: header.image
+        };
 
-    return token;
+        this._headers.push(token);
+      });
+    }
   };
 };
 

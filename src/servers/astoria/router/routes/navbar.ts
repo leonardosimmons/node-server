@@ -5,10 +5,10 @@ import * as navbar from '../../controllers/navbar';
 const router: Express.Router = Express.Router();
 
 // Desktop
-router.get('/desktop', navbar.getDesktopData);
+router.get('/desktop/static-data', navbar.getDesktopData);
 
 // Mobile
-router.get('/mobile', navbar.getMobileData);
+router.get('/mobile/static-data', navbar.getMobileData);
 
 
 export default router;

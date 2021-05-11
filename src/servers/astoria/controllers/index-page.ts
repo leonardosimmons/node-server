@@ -2,19 +2,21 @@
 import Express from 'express';
 import { HttpError } from '../../../utils/types';
 import { IndexPage } from '../models/pages';
+import { IndexPageHeaderData } from '../utils/types';
 
 
-export async function getIndexData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
+export async function getData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
 {
   const indexPage: IndexPage = new IndexPage();
 
   try {
-    const [ headers ] = await indexPage.fetchHeaders();
-    indexPage.headers = headers;
+    const [ headerData ] = await indexPage.fetchHeaders();
+
+    indexPage.setHeaders(headerData);
 
     res.status(200).json({
       message: 'Data successfully retrieved from database',
-      data: headers
+      data: indexPage.data
     });
   }
   catch (err) {
