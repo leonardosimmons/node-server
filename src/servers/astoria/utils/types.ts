@@ -6,8 +6,21 @@ export type NamedLink = {
   link: string;
 };
 
-
 export type SqlData = RowDataPacket | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader;
+
+
+//* -----------------  INDEX PAGE  ----------------- *//
+export type IndexPageHeaderData = {
+  id: string;
+  heading: string;
+  btn: {
+    text: string;
+    link: string;
+  },
+  video: string;
+};
+
+
 
 //* -------------------  NAVBAR  ------------------- *//
 export type NavbarToken = {

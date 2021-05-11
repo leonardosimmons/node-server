@@ -1,4 +1,11 @@
-import { DesktopNavBarData, SqlData } from "./types";
+
+import { DesktopNavBarData, MobileNavbarData, SqlData } from "./types";
+
+//* -----------------  INDEX PAGE  ----------------- *//
+export interface IndexPageContext {
+
+};
+
 
 //* -------------------  NAVBAR  ------------------- *//
 export interface DesktopNavbarInterface
@@ -10,5 +17,6 @@ export interface DesktopNavbarInterface
 
 export interface MobileNavbarInterface
 {
-
+  fetchData: () => Promise<any>;
+  createToken: (data: SqlData) => MobileNavbarData;
 };
