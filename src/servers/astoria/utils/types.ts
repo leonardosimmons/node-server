@@ -1,6 +1,20 @@
 import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 //* -------------------  GENERAL  ------------------- *//
+export type Button = {
+  text: string;
+  link: string;
+};
+
+export type Combinable = string | number;
+
+export type Image = {
+  src: string;
+  alt: string;
+  width?: Combinable;
+  height?: Combinable;
+};
+
 export type NamedLink = {
   name: string;
   link: string;
@@ -8,6 +22,18 @@ export type NamedLink = {
 
 export type SqlData = RowDataPacket | RowDataPacket[] | RowDataPacket[][] | OkPacket | OkPacket[] | ResultSetHeader;
 
+export type Text = {
+  name?: string;
+  title?: string;
+  text?: string;
+  heading?: string;
+  subHeading?: string;
+  lineOne?: string;
+  lineTwo?: string;
+  lineThree?: string;
+  body?: string;
+  bodyTwo?: string;
+};
 
 //* -----------------  INDEX PAGE  ----------------- *//
 export type IndexPageHeaderData = {
@@ -21,6 +47,45 @@ export type IndexPageHeaderData = {
   video: string;
 };
 
+export type IndexPageStaticData = {
+  one: ProductPromoCard
+  two: {
+    text: Text;
+    btn: Button;
+  };
+  three: ProductPromoCard;
+  four: {
+    text: Text;
+    btn: Button;
+  };
+  appt: {
+    text: Text;
+    btnOne: Button;
+    btnTwo: Button;
+  };
+};
+
+//* -------------------  PRODUCT  ------------------- *//
+export type ProductPromoCard = {
+  img: Image;
+  text: Text;
+  btn: Button;
+  tag: {
+    img: Image;
+    text: Text;
+    btn: Button;
+  };
+};
+
+export type ProductInformation = {
+  id: string;
+  name: string;
+  price: string;
+  style: string;
+  desc: string;
+  img: string;
+  list: Array<string>;
+};
 
 
 //* -------------------  NAVBAR  ------------------- *//
@@ -36,18 +101,18 @@ export type NavbarToken = {
 };
 
 export type DesktopNavBarData = {
-  info: NavbarToken[];
+  info: Array<NavbarToken>;
   menu: {
     logo: NamedLink;
-    tabs: NavbarToken[];
+    tabs: Array<NavbarToken>;
   };
-  profiles: NavbarToken[];
+  profiles: Array<NavbarToken>;
 };
 
 export type MobileNavbarData = {
-  icons: Omit<NavbarToken, 'name'>[];
+  icons: Array<Omit<NavbarToken, 'name'>>;
   menu: {
-    tabs: NamedLink[];
-    scrollText: string[];
+    tabs: Array<NamedLink>;
+    scrollText: Array<string>;
   };
 };

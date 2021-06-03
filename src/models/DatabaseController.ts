@@ -1,7 +1,16 @@
 
 import { Pool } from 'mysql2/promise';
 import { Combinable } from '../utils/types';
-import { DatabaseControllerInterface } from '../utils/interfaces';
+
+
+export interface DatabaseControllerInterface 
+{
+  delete: (table: string, id: Combinable) => Promise<any>;
+  fetchAll: (table: string) => Promise<any>;
+  fetchById: (table: string, id: Combinable) => Promise<any>;
+  fetchByType: (table: string, type: string) => Promise<any>;
+  save<T>(table: string, rows: string, holder: string, values: T): Promise<any>;
+};
 
 
 class DatabaseController implements DatabaseControllerInterface
@@ -12,24 +21,24 @@ class DatabaseController implements DatabaseControllerInterface
     this._db = db;
   };
 
-  public delete(table: string, id: Combinable) {
+  public delete(table: string, id: Combinable): Promise<any> {
     return this._db.execute(`DROP * FROM ${table} WHERE ${table}.id = ?`, [ id ]);
   };
 
-  public fetchAll(table: string) {
+  public fetchAll(table: string): Promise<any> {
     return this._db.execute(`SELECT * FROM ${table}`);
   };
 
-  public fetchById(table: string, id: Combinable) {
+  public fetchById(table: string, id: Combinable): Promise<any> {
     return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.id = ?`, [ id ]);
   };
 
-  public fetchByType(table: string, type: string) {
+  public fetchByType(table: string, type: string): Promise<any> {
     return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.type = ?`, [ type ]);
   };
 
-  public save<T>(table: string, rows: string, values: T) {
-    const rowArr: string[] = rows.split(/[, ]+/);
+  public save<T>(table: string, rows: string, values: T): Promise<any> {
+    const rowArr: Array<string> = rows.split(/[, ]+/);
     const len: number = rowArr.length;
     let placeholder: string = '?';
 

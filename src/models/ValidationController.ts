@@ -2,7 +2,25 @@
 import { Combinable } from '../utils/types';
 import { preg_match } from '../helpers/functions';
 
-class ValidationController 
+
+interface ValidationInterface {
+  readonly isValidated: boolean;
+  readonly error: string;
+  validate: () => void;
+  lenCheck: (field: string, len: number) => boolean;
+  check: (a: string, b: string, c: string, d: string, e: string, f: string, g: string, h: string, i: string) => string;
+  title: (field: string, len: number) => string;
+  content: (field: string, len: number) => string;
+  firstname: (field: string) => string;
+  lastname: (field: string) => string;
+  username: (field: string) => string;
+  password: (field: string) => string;
+  age: (field: Combinable) => string;
+  email: (field: string) => string;
+};
+
+
+class ValidationController implements ValidationInterface
 {
   private _validated: boolean;
   private _error: string;
@@ -21,11 +39,11 @@ class ValidationController
   }
 
   // Controllers
-  private validate(): void {
+  public validate(): void {
     this._validated = true;
   };
   
-  public length(field: string, len: number): boolean {
+  public lenCheck(field: string, len: number): boolean {
     return field.length > len ? true : false;
   }
 
@@ -50,73 +68,32 @@ class ValidationController
     return fail;
   };
 
-  public newPost(title: string, content: string): void {
-    const t: string = this.title(title, 5);
-    const c: string = this.content(content, 5);
-
-    const validationCheck: string = this.check(t, c);
-
-    if (validationCheck === '') {
-      this.validate();
-      console.log('[new post] Post created successfully');
-      return;
-    } 
-
-    console.log('\x1b[31m%s\x1b[0m', `[new post] ${validationCheck}`);
-    this._error = validationCheck;
-    return;
-  };
-
-  public newUserForm(fn: string, ln: string, un: string, pw: string, a: Combinable, e: string): string | true {
-    let fail = '';
-    fail = fail.concat(this.firstName(fn));
-    fail = fail.concat(this.lastName(ln));
-    fail = fail.concat(this.userName(un));
-    fail = fail.concat(this.password(pw));
-    fail = fail.concat(this.age(a));
-    fail = fail.concat(this.email(e));
-
-    if (fail === '') return true;
-
-    return fail;
-  }; 
-
-  public signInForm(un: string, pw: string) {
-    let fail = '';
-    fail = this.userName(un);
-    fail = this.password(pw);
-
-    if (fail === '') return true;
-
-    return fail;
-  }
-
   // Functions
-  private title(field: string, len: number): string {
+  public title(field: string, len: number): string {
     let fail = '';
     if (field === '') { fail = 'No title was entered'; }
-    if (!this.length(field, len)) { fail = fail + 'Title must be at least (5) characters long'; }
+    if (!this.lenCheck(field, len)) { fail = fail + 'Title must be at least (5) characters long'; }
 
     return fail;
   };
 
-  private content(field: string, len: number): string {
+  public content(field: string, len: number): string {
     let fail = '';
     if (field === '') { fail = 'No contetn was entered'; }
-    if (!this.length(field, len)) { fail = fail + 'Content must be at least (5) characters long'; }
+    if (!this.lenCheck(field, len)) { fail = fail + 'Content must be at least (5) characters long'; }
 
     return fail;
   };
 
-  private firstName(field: string): string {
+  public firstname(field: string): string {
     return field === '' ? 'No First Name was entered | ': '';
   };
 
-  private lastName(field: string): string {
+  public lastname(field: string): string {
     return field === '' ? 'No Last Name was entered | ': '';
   };
 
-  private userName(field: string) {
+  public username(field: string): string {
     if (field === '') return 'No Username entered. | ';
     else if (field.length < 5) return 'Usename must be at least 5 characters long. | ';
     else if (preg_match('\W', field)) return 'Username must only contain letters, numbers, _ and -. | ';
@@ -124,7 +101,7 @@ class ValidationController
     return '';
   };
 
-  private password(field: string) {
+  public password(field: string): string {
     if (field === '') return 'No Password entered | ';
     else if (field.length < 6) return 'Password must be at least 6 characters long | ';
     else if (!preg_match('[a-z]', field) || !preg_match('[A-Z]', field ) || !preg_match('[0-9]', field)) 
@@ -133,7 +110,7 @@ class ValidationController
     return '';
   };
 
-  private age(field: Combinable) {
+  public age(field: Combinable): string {
     if (field === '' || field === 0) return 'No Age was entered | ';
     else if (typeof field === 'string') {
       if (parseInt(field) < 21) {
@@ -145,7 +122,7 @@ class ValidationController
     return '';
   }
   
-  private email(field: string) {
+  public email(field: string): string {
     if (field === '') return 'No Email address was entered | ';
     else if (!(field.indexOf('.') > 0 || field.indexOf('@') > 0) && preg_match('[^a-zA-z0-9_-]', field)) 
       return 'The entered email address is invalid | ';

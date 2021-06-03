@@ -1,32 +1,34 @@
 
 import db from '../../utils/database';
 import { DatabaseController } from "../../../../models/DatabaseController";
-import { IndexPageHeaderData, SqlData } from '../../utils/types';
+import { IndexPageHeaderData, IndexPageStaticData, SqlData } from '../../utils/types';
 
 
 class IndexPage 
 {
-  private _headers: IndexPageHeaderData[];
+  private _headers: Array<IndexPageHeaderData>;
+  public _staticData: IndexPageStaticData;
   private _db: DatabaseController;
 
   constructor() {
     this._headers = [];
+    this._staticData = <IndexPageStaticData>{};
     this._db = new DatabaseController(db);
   };
 
   get data() {
     return {
-      headers: this._headers
+      headers: this._headers,
+      staticData: this._staticData
     };
   }
-
 
   public fetchHeaders(): Promise<any> {
     return this._db.fetchByType('headers', 'index');
   };
 
-  public fetchPageData() {
-    
+  public fetchPageData(): Promise<any> {
+    return this._db.fetchAll('index_page');
   };
 
   public setHeaders(data: SqlData): void
