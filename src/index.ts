@@ -15,6 +15,7 @@ const PORT: string = process.env.PORT as string || process.env.DEV_PORT as strin
 
 /* ---------------------  PARSERS  -------------------- */
 server.use(Express.json());
+server.use(Express.urlencoded({ extended: false }));
 server.use(Express.static(Path.join(__dirname, 'public')));
 
 

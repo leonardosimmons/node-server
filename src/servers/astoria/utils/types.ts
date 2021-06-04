@@ -77,16 +77,29 @@ export type ProductPromoCard = {
   };
 };
 
-export type ProductInformation = {
+export type ProductData = {
   id: string;
+  slug: string;
   name: string;
   price: string;
   style: string;
   desc: string;
   img: string;
-  list: Array<string>;
+  list: string;
 };
 
+export type Product = {
+  id: string;
+  slug: string;
+  style: string;
+  details: {
+    name: string;
+    price: string;
+    desc: string;
+    img: string;
+    list: Array<string>;
+  }
+}
 
 //* -------------------  NAVBAR  ------------------- *//
 export type NavbarToken = {
