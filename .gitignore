@@ -29,6 +29,7 @@ yarn-error.log*
 # User
 /public/assets
 /src/buffer
+/src/test
 /src/*.txt
 *.png
 *.jpg

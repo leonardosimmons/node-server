@@ -7,6 +7,7 @@ import { consoleText } from './helpers/definitions';
 
 import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
+import testRoutes from './test/router';
 import astoriaRoutes from './servers/astoria/router';
 
 const server = Express();
@@ -22,6 +23,7 @@ server.use(Express.static(Path.join(__dirname, 'public')));
 /* ---------------------  ROUTES  --------------------- */
 server.use(headerRoutes);
 server.use('/astoria', astoriaRoutes);
+server.use('/test', testRoutes);
 server.use(errorRoutes);
 
 

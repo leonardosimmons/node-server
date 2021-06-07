@@ -10,8 +10,6 @@ export async function getAllProducts(_: Express.Request, res: Express.Response, 
     const controller: ProductController = new ProductController();
     const [ products ] = await controller.fetchProducts();
 
-    console.log(products);
-
     res.status(200).json({ message: 'Success', payload: products });
   }
   catch (err) {
@@ -30,9 +28,7 @@ export async function getProduct(req: Express.Request, res: Express.Response, ne
     const id: string = req.query.id as string;
     const [ product ] = await controller.fetchProductById(id);
 
-    // console.log(product);
-
-    res.status(200).json({ message: 'It worked', id : id, data: product });
+    res.status(200).json({ message: 'Success', payload: product });
   }
   catch (err) {
     const error: HttpError = err;
