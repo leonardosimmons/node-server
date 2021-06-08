@@ -26,6 +26,7 @@ class ProductController implements ProductInterface
       },
       details: {
         type: data.type,
+        fit: data.fit,
         style: data.style,
         name: data.name,
         price: parseInt(data.price),

@@ -85,6 +85,7 @@ export type ProductData = {
   slug: string;
   style: string;
   type: string;
+  fit: string;
   name: string;
   price: string;
   description: string;
@@ -100,6 +101,7 @@ export type Product = {
   };
   details: {
     type: string;
+    fit: string;
     style: string;
     name: string;
     price: number;
