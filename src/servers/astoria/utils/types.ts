@@ -1,6 +1,8 @@
 import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
 //* -------------------  GENERAL  ------------------- *//
+export type Buffer<T> = T | Array<T> | undefined;
+
 export type Button = {
   text: string;
   link: string;
@@ -80,10 +82,11 @@ export type ProductPromoCard = {
 export type ProductData = {
   id: string;
   slug: string;
+  style: string;
+  type: string;
   name: string;
   price: string;
-  style: string;
-  desc: string;
+  description: string;
   img: string;
   list: string;
 };
@@ -93,12 +96,13 @@ export type Product = {
   slug: string;
   style: string;
   details: {
+    type: string;
     name: string;
-    price: string;
+    price: number;
     desc: string;
     img: string;
     list: Array<string>;
-  }
+  };
 }
 
 //* -------------------  NAVBAR  ------------------- *//
