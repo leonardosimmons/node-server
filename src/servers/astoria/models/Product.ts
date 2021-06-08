@@ -8,6 +8,7 @@ interface ProductInterface {
   createToken: (data: ProductData) => Product;
   fetchProducts: () => Promise<any>;
   fetchProductById: (id: string) => Promise<any>;
+  fetchProduct: (col: string, val: string) => Promise<any>;
 };
 
 class ProductController implements ProductInterface
@@ -50,7 +51,7 @@ class ProductController implements ProductInterface
     return this._db.fetchById('products', id);
   };
 
-  public fetchProduct(col: string, val: string) {
+  public fetchProduct(col: string, val: string): Promise<any> {
     return this._db.fetchByColumn('products', col, val)
   };
 };
