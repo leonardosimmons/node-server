@@ -6,7 +6,7 @@ import { MobileNavbar } from '../models/navbar/mobile';
 import { DesktopNavBarData, MobileNavbarData } from '../utils/types';
 
 
-export async function getDesktopData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
+export async function getDesktopData(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   const desktop: DesktopNavbar = new DesktopNavbar();
 
@@ -27,7 +27,7 @@ export async function getDesktopData(_: Express.Request, res: Express.Response, 
   }
 };
 
-export async function getMobileData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
+export async function getMobileData(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   const mobile: MobileNavbar = new MobileNavbar();
 

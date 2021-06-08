@@ -5,7 +5,7 @@ import { IndexPage } from '../models/pages';
 import { IndexPageHeaderData } from '../utils/types';
 
 
-export async function getData(_: Express.Request, res: Express.Response, next: Express.NextFunction)
+export async function getData(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   const indexPage: IndexPage = new IndexPage();
 

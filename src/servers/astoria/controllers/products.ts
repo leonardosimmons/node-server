@@ -5,7 +5,7 @@ import { ProductController } from '../models/Product';
 import { Product, ProductData } from '../utils/types';
 
 
-export async function getAllProducts(_: Express.Request, res: Express.Response, next: Express.NextFunction)
+export async function getAllProducts(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   try
   {
@@ -15,7 +15,7 @@ export async function getAllProducts(_: Express.Request, res: Express.Response, 
 
     prod = data.map((p: ProductData) => (ctrl.createToken(p)));
 
-    res.status(200).json({  message: 'Success', payload: prod });
+    res.status(200).json({ message: 'Success', payload: prod });
   }
   catch (err) {
     const error: HttpError = err;
@@ -25,7 +25,7 @@ export async function getAllProducts(_: Express.Request, res: Express.Response, 
   }
 };
 
-export async function getProduct(req: Express.Request, res: Express.Response, next: Express.NextFunction) 
+export async function getProduct(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   try
   {
