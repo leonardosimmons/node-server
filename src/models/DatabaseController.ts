@@ -9,6 +9,7 @@ export interface DatabaseControllerInterface
   fetchAll: (table: string) => Promise<any>;
   fetchById: (table: string, id: Combinable) => Promise<any>;
   fetchByType: (table: string, type: string) => Promise<any>;
+  fetchByColumn: (table: string, column: string, value: string) => Promise<any>;
   save<T>(table: string, rows: string, holder: string, values: T): Promise<any>;
 };
 
@@ -52,7 +53,7 @@ class DatabaseController implements DatabaseControllerInterface
       }
     }
 
-    return this._db.execute(`INSERT INTO ${table} (${rows}) VALUES (${placeholder})`, values);
+    return this._db.execute(`INSERT INTO ${table} (${rows}) VALUES (${placeholder})`, [ values ]);
   };
 };
 
