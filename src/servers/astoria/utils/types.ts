@@ -4,8 +4,9 @@ import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 export type Buffer<T> = T | Array<T> | undefined;
 
 export type Button = {
-  text: string;
   link: string;
+  text?: string;
+  classes?: string;
 };
 
 export type Combinable = string | number;
@@ -87,23 +88,29 @@ export type ProductData = {
   name: string;
   price: string;
   description: string;
-  img: string;
+  image: string;
   list: string;
+  link: string;
 };
 
 export type Product = {
-  id: string;
-  slug: string;
-  style: string;
+  meta: {
+    id: string;
+    slug: string;
+  };
   details: {
     type: string;
+    style: string;
     name: string;
     price: number;
     desc: string;
-    img: string;
     list: Array<string>;
   };
-}
+  preview: {
+    image: Image;
+    link: string;
+  };
+};
 
 //* -------------------  NAVBAR  ------------------- *//
 export type NavbarToken = {

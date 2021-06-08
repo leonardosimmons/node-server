@@ -36,16 +36,24 @@ class ProductController implements ProductInterface
 
   public createToken(data: ProductData): Product {
     return {
-      id: data.id,
-      slug: data.slug,
-      style: data.style,
+      meta: {
+        id: data.id,
+        slug: data.slug,
+      },
       details: {
         type: data.type,
+        style: data.style,
         name: data.name,
         price: parseInt(data.price),
         desc: data.description,
-        img: data.img,
         list: data.list.split(' | ')
+      },
+      preview: {
+        image: {
+          src: data.image,
+          alt: data.name
+        },
+        link: data.link
       }
     }
   };
