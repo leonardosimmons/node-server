@@ -37,6 +37,10 @@ class DatabaseController implements DatabaseControllerInterface
     return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.type = ?`, [ type ]);
   };
 
+  public fetchByColumn(table: string, column: string, value: string): Promise<any> {
+    return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.${column} = ?`, [ value ]);
+  };
+
   public save<T>(table: string, rows: string, values: T): Promise<any> {
     const rowArr: Array<string> = rows.split(/[, ]+/);
     const len: number = rowArr.length;

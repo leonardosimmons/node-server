@@ -5,7 +5,6 @@ import { Buffer, Product, ProductData, SqlData } from '../utils/types';
 
 
 interface ProductInterface {
-  clearBuffer: () => void;
   createToken: (data: ProductData) => Product;
   fetchProducts: () => Promise<any>;
   fetchProductById: (id: string) => Promise<any>;
@@ -14,24 +13,9 @@ interface ProductInterface {
 class ProductController implements ProductInterface
 {
   private _db: DatabaseController;
-  private _buffer: Buffer<Product>;
 
   constructor() {
     this._db = new DatabaseController(db);
-    this._buffer = <Product>{};
-  };
-
-  get buffer() {
-    return this._buffer;
-  }
-
-  set buffer(data: Product | Array<Product> | undefined) {
-    this.clearBuffer();
-    this._buffer = data;
-  };
-
-  public clearBuffer(): void {
-    this._buffer = undefined;
   };
 
   public createToken(data: ProductData): Product {
@@ -66,6 +50,9 @@ class ProductController implements ProductInterface
     return this._db.fetchById('products', id);
   };
 
+  public fetchProduct(col: string, val: string) {
+    return this._db.fetchByColumn('products', col, val)
+  };
 };
 
 export { ProductController };
