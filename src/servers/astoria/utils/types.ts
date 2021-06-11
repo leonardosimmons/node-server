@@ -142,3 +142,20 @@ export type MobileNavbarData = {
     scrollText: Array<string>;
   };
 };
+
+//* --------------------  USER  -------------------- *//
+export type UserData = {
+  id: Combinable;
+  name: string;
+  email?: string;
+  image?: string;
+};
+
+export type User = {
+  id: Combinable;
+  info: {
+    name: string;
+    email?: string;
+    image?: string;
+  };
+};

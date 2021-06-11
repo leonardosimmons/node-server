@@ -1,5 +1,19 @@
 import { Combinable } from '../utils/types';
 
+/**
+ * returns an array of the values contained within the given object
+ * @param obj 
+ * @returns 
+ */
+export function getObjVal<T>(obj: T): Array<T[keyof T]> {
+  let k: keyof typeof obj;
+  let v: Array<T[keyof T]> = [];
+  for (k in obj) {
+    v.push(obj[k]);
+  }
+
+  return v;
+}
 
 /**
  * Checks the given regular expression against the given parameter
