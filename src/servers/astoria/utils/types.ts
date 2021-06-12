@@ -144,7 +144,7 @@ export type MobileNavbarData = {
 };
 
 //* --------------------  USER  -------------------- *//
-export type UserData = {
+export type UserTableData = {
   id: Combinable;
   name: string;
   email?: string;
