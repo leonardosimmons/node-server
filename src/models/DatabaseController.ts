@@ -2,16 +2,17 @@
 import { Pool } from 'mysql2/promise';
 import { Combinable } from '../utils/types';
 import { getObjVal } from '../helpers/functions';
+import { rejects } from 'assert';
 
 
 export interface DatabaseControllerInterface 
 {
+  create<T>(table: string, rows: string, holder: string, values: T): Promise<void>;
   delete: (table: string, id: Combinable) => Promise<any>;
   fetchAll: (table: string) => Promise<any>;
   fetchById: (table: string, id: Combinable) => Promise<any>;
   fetchByType: (table: string, type: string) => Promise<any>;
   fetchByColumn: (table: string, column: string, value: string) => Promise<any>;
-  create<T>(table: string, rows: string, holder: string, values: T): Promise<any>;
 };
 
 
@@ -30,18 +31,18 @@ class DatabaseController implements DatabaseControllerInterface
 
     if (len > 1) {
       for(let i = 0; i < len - 1; i++) {
-        p = p.concat(' ?');
+        p = p.concat(', ?');
       }
     }
 
     return p;
   };
   
-  public create<T>(table: string, cols: string, values: T): Promise<any> {
+  public async create<T>(table: string, cols: string, values: T): Promise<void> {
     const ph: string = this.createPlaceholder(cols);
-    const val: Array<T[keyof T]> = getObjVal(values);
-
-    return this._db.execute(`INSERT INTO ${table} (${cols}) VALUES (${ph})`, [...val]);
+    const val: Array<T[keyof T] | null> = getObjVal(values);
+    
+    this._db.execute(`INSERT INTO ${table} (${cols}) VALUES (${ph})`, val);
   };
 
   public delete(table: string, id: Combinable): Promise<any> {

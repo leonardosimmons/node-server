@@ -1,7 +1,7 @@
 
 import db from '../utils/database';
 import { DatabaseController } from '../../../models/DatabaseController';
-import { User, UserTableData } from '../utils/types';
+import { NewUserToken, User, UserTableData } from '../utils/types';
 import { Combinable } from '../../../utils/types';
 import { table } from '../utils/keys';
 import { randNum } from '../../../helpers/functions';
@@ -9,12 +9,12 @@ import { randNum } from '../../../helpers/functions';
 
 interface UserControllerInterface {
   createToken: (values: UserTableData) => User;
-  create: (values: UserTableData) => Promise<any>;
+  create: (values: NewUserToken) => void;
   delete: (id: Combinable) => Promise<any>;
   fetchAll: () => Promise<any>;
   fetch: (col: string, val: string) => Promise<any>;
   generateId: () => Promise<number>;
-  save: (rows: string, values: UserTableData) => Promise<any>;
+  save: (rows: string, values: UserTableData) => void;
   update: (id: number, col: string, val: Combinable) => Promise<any>;
 };
 
@@ -42,10 +42,10 @@ class UserController implements UserControllerInterface
     };
   };
 
-  public create(values: UserTableData): Promise<any> {
+  public create(values: NewUserToken): void {
     const rows: string = 'id, name, email, image';
-    return this._db.create(table.users, rows, values);
-  }
+    this._db.create(table.users, rows, values);
+  };
 
   public delete(id: Combinable): Promise<any> {
     return this._db.delete(table.users, id);
@@ -59,7 +59,7 @@ class UserController implements UserControllerInterface
     return this._db.fetchByColumn(table.users, col, val);
   };
 
-  public async generateId() {
+  public async generateId(): Promise<number> {
     let uD: Array<UserTableData> = [];
     let id: number = randNum(this._minRange, this._maxRange);
   
@@ -79,8 +79,8 @@ class UserController implements UserControllerInterface
     return id;
   };
 
-  public save(rows: string, values: UserTableData): Promise<any> {
-    return this._db.create(table.users, rows, values);
+  public save(rows: string, values: UserTableData): void {
+    this._db.create(table.users, rows, values);
   }
 
   public update(id: number, col: string, val: Combinable): Promise<any> {

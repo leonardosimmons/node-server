@@ -159,3 +159,10 @@ export type User = {
     image?: string;
   };
 };
+
+export type NewUserToken = {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+};

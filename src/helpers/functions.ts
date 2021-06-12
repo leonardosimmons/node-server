@@ -5,15 +5,19 @@ import { Combinable } from '../utils/types';
  * @param obj 
  * @returns 
  */
-export function getObjVal<T>(obj: T): Array<T[keyof T]> {
+export function getObjVal<T>(obj: T): Array<T[keyof T] | null> {
   let k: keyof typeof obj;
-  let v: Array<T[keyof T]> = [];
+  let v: Array<T[keyof T] | null> = [];
   for (k in obj) {
-    v.push(obj[k]);
+    if (obj[k]) {
+      v.push(obj[k]);
+    } else {
+      v.push(null);
+    }
   }
 
   return v;
-}
+};
 
 /**
  * Checks the given regular expression against the given parameter

@@ -1,36 +1,54 @@
 
 import Express from 'express';
-import { randNum } from '../../../helpers/functions';
 import { HttpError } from '../../../utils/types';
 import { UserController } from '../models/user';
-import { User, UserTableData } from '../utils/types';
+import { NewUserToken, User, UserTableData } from '../utils/types';
 
 
 export async function add(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   try {
     const cntrl: UserController = new UserController();
-    const data: Partial<UserTableData> = req.body;
+
+    if (req.body) {
+      const name: string = req.body.name;
+      const email: string = req.body.email;
+      const image: string = req.body.image;
+
+      await cntrl.generateId()
+      .then((n: number) => {
+        const id: number = n
+        
+        if (name) {
+          const newUser: NewUserToken = {id, name, email, image};
   
-    const dataToken: UserTableData = {
-      id: await cntrl.generateId(),
-      name: data.name as string,
-      email: data.email,
-      image: data.image
-    };
-
-    //await cntrl.create(dataToken);
-
-    res.status(201).json({
-      message: 'User successfully added to the database'
-    });
+          cntrl.create(newUser);
+          
+          return newUser;
+        }
+      })
+      .then((user) => {
+        res.status(201).json({
+          message: 'User successfully added to the database',
+          payload: {
+            id: user?.id as number,
+            info: {
+              name: user?.name as string,
+              email: user?.email as string,
+              image: user?.image as string
+            }
+          }
+        });
+      })
+      .catch(err => { throw new Error(err)}) 
+    }
   }
   catch(err) {
     const error: HttpError = err;
     error.statusCode = 500;
     error.message = 'Unable to add user to database';
     next(error);
-  }
+  };
 };
 
 export async function remove(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
@@ -41,11 +59,11 @@ export async function remove(req: Express.Request, res: Express.Response, next: 
 export async function getAll(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   try {
-    const user: UserController = new UserController();
-    const [ data ] = await user.fetchAll();
-    let uD: Array<User> = [];
+    let users: Array<User> = [];
+    const cntrl: UserController = new UserController();
+    const [ data ] = await cntrl.fetchAll();
 
-    uD = data.map((u: UserTableData): User => ({
+    users = data.map((u: UserTableData): User => ({
       id: u.id,
       info: {
         name: u.name,
@@ -56,7 +74,7 @@ export async function getAll(_: Express.Request, res: Express.Response, next: Ex
 
     res.status(200).json({
       message: 'Success',
-      payload: uD
+      payload: users
     });
   }
   catch(err) {
