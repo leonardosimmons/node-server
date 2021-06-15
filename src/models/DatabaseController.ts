@@ -2,12 +2,12 @@
 import { Pool } from 'mysql2/promise';
 import { Combinable } from '../utils/types';
 import { getObjVal } from '../helpers/functions';
-import { rejects } from 'assert';
 
 
 export interface DatabaseControllerInterface 
 {
-  create<T>(table: string, rows: string, holder: string, values: T): Promise<void>;
+  create<T>(table: string, rows: string, holder: string, values: T): void;
+  createTable(name: string, cols: string): void;
   delete: (table: string, id: Combinable) => Promise<any>;
   fetchAll: (table: string) => Promise<any>;
   fetchById: (table: string, id: Combinable) => Promise<any>;
@@ -38,11 +38,15 @@ class DatabaseController implements DatabaseControllerInterface
     return p;
   };
   
-  public async create<T>(table: string, cols: string, values: T): Promise<void> {
+  public create<T>(table: string, cols: string, values: T): void {
     const ph: string = this.createPlaceholder(cols);
     const val: Array<T[keyof T] | null> = getObjVal(values);
     
     this._db.execute(`INSERT INTO ${table} (${cols}) VALUES (${ph})`, val);
+  };
+
+  public createTable(name: string, cols: string): void {
+    this._db.execute(`CREATE TABLE ${name} (${cols})`);
   };
 
   public delete(table: string, id: Combinable): Promise<any> {
@@ -64,7 +68,6 @@ class DatabaseController implements DatabaseControllerInterface
   public fetchByColumn(table: string, col: string, value: string): Promise<any> {
     return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.${col} = ?`, [value]);
   };
-
 
   public update(table: string, id: number, col: string, value: Combinable): Promise<any> {
     return this._db.execute(`UPDATE ${table} SET ${col}=${value} WHERE ${table}.id = ?`, [id]);

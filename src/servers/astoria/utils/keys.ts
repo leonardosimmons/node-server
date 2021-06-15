@@ -5,10 +5,11 @@ export enum navbar {
 };
 
 export enum table {
-  desktop_navbar = 'desktop_navbar',
-  headers = 'headers',
-  index_page = 'index_page',
-  mobile_navbar = 'mobile_navbar',
-  products = 'products',
-  users = 'users'
+  CART = 'cart',
+  DESKTOP_NAVBAR = 'desktop_navbar',
+  HEADERS = 'headers',
+  INDEX_PAGE = 'index_page',
+  MOBILE_NAVBAR = 'mobile_navbar',
+  PRODUCTS = 'products',
+  USERS = 'users'
 };

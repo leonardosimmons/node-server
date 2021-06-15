@@ -1,5 +1,26 @@
 import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 
+//* --------------------  CART  -------------------- *//
+export type CartTableData = {
+  id: number;
+  prodId: number;
+  size: string;
+  quantity: string;
+};
+
+
+export type Cart = {
+
+};
+
+export type NewProdInCartToken = {
+  u_id: number;
+  p_id: number;
+  size: string;
+  quantity: number;
+};
+
+
 //* -------------------  GENERAL  ------------------- *//
 export type Buffer<T> = T | Array<T> | undefined;
 
@@ -114,6 +135,15 @@ export type Product = {
   };
 };
 
+export type ProductCartToken = {
+  user: Partial<UserContext>;
+  product: Product;
+  order: {
+    size: string;
+    quantity: number;
+  };
+};
+
 //* -------------------  NAVBAR  ------------------- *//
 export type NavbarToken = {
   id: string;
@@ -151,12 +181,23 @@ export type UserTableData = {
   image?: string;
 };
 
+export type UserInfo = {
+  name: string;
+  email?: string;
+  image?: string;
+};
+
 export type User = {
   id: Combinable;
-  info: {
-    name: string;
-    email?: string;
-    image?: string;
+  info: UserInfo;
+};
+
+export type UserContext = {
+  id: Combinable;
+  info: UserInfo;
+  status: {
+    isError: boolean;
+    isSignedIn: boolean;
   };
 };
 

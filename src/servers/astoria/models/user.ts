@@ -1,7 +1,7 @@
 
 import db from '../utils/database';
 import { DatabaseController } from '../../../models/DatabaseController';
-import { NewUserToken, User, UserTableData } from '../utils/types';
+import { NewUserToken, User, UserContext, UserTableData } from '../utils/types';
 import { Combinable } from '../../../utils/types';
 import { table } from '../utils/keys';
 import { randNum } from '../../../helpers/functions';
@@ -23,12 +23,33 @@ class UserController implements UserControllerInterface
 {
   private _db: DatabaseController;
   private _minRange: number;
-  private _maxRange: number
+  private _maxRange: number;
+  private _current: UserContext;
 
   constructor() {
     this._db = new DatabaseController(db);
     this._minRange = 100000000;
     this._maxRange = 999999999;
+    this._current = <UserContext>{};
+  };
+
+  get current() {
+    return this._current;
+  };
+
+  set current(u: Partial<UserContext>) {
+    this._current = {
+      id: u.id as number,
+      info: {
+        name: u.info?.name as string,
+        email: u.info?.email,
+        image: u.info?.image
+      },
+      status: {
+        isError: false,
+        isSignedIn: true
+      }
+    };
   };
 
   public createToken(u: UserTableData): User {
@@ -44,19 +65,19 @@ class UserController implements UserControllerInterface
 
   public create(values: NewUserToken): void {
     const rows: string = 'id, name, email, image';
-    this._db.create(table.users, rows, values);
+    this._db.create(table.USERS, rows, values);
   };
 
   public delete(id: Combinable): Promise<any> {
-    return this._db.delete(table.users, id);
+    return this._db.delete(table.USERS, id);
   };
 
   public fetchAll(): Promise<any> {
-    return this._db.fetchAll(table.users);
+    return this._db.fetchAll(table.USERS);
   };
 
   public fetch(col: string, val: string): Promise<any> {
-    return this._db.fetchByColumn(table.users, col, val);
+    return this._db.fetchByColumn(table.USERS, col, val);
   };
 
   public async generateId(): Promise<number> {
@@ -80,12 +101,12 @@ class UserController implements UserControllerInterface
   };
 
   public save(rows: string, values: UserTableData): void {
-    this._db.create(table.users, rows, values);
-  }
+    this._db.create(table.USERS, rows, values);
+  };
 
   public update(id: number, col: string, val: Combinable): Promise<any> {
-    return this._db.update(table.users, id, col, val);
-  }
+    return this._db.update(table.USERS, id, col, val);
+  };
 };
 
 export { UserController };

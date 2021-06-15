@@ -1,7 +1,7 @@
 
 import Express from 'express';
 import { HttpError } from '../../../utils/types';
-import { UserController } from '../models/user';
+import { UserController } from '../models/User';
 import { NewUserToken, User, UserTableData } from '../utils/types';
 
 
