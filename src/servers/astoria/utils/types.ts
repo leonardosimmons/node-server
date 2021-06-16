@@ -3,7 +3,8 @@ import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
 //* --------------------  CART  -------------------- *//
 export type CartTableData = {
   id: number;
-  prodId: number;
+  u_id: number;
+  prod_id: number;
   size: string;
   quantity: string;
 };

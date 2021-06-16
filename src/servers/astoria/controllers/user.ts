@@ -87,7 +87,6 @@ export async function signIn(req: Express.Request, res: Express.Response, next: 
     const cntrl: UserController = new UserController();
 
     if(req.body) {
-      console.log(req.body)
       const id: string = req.body.u_Id as string;
       const col: string = 'signed_in';
 
