@@ -4,6 +4,7 @@ import { DatabaseController } from '../../../models/DatabaseController';
 import { NewUserToken, User, UserContext, UserTableData } from '../utils/types';
 import { Combinable } from '../../../utils/types';
 import { table } from '../utils/keys';
+
 import { randNum } from '../../../helpers/functions';
 
 
