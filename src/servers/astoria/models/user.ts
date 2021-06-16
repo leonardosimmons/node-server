@@ -15,6 +15,8 @@ interface UserControllerInterface {
   fetch: (col: string, val: string) => Promise<any>;
   generateId: () => Promise<number>;
   save: (rows: string, values: UserTableData) => void;
+  signIn: () => void;
+  signOut: () => void;
   update: (id: number, col: string, val: Combinable) => Promise<any>;
 };
 
@@ -102,6 +104,14 @@ class UserController implements UserControllerInterface
 
   public save(rows: string, values: UserTableData): void {
     this._db.create(table.USERS, rows, values);
+  };
+
+  public signIn() {
+    this._current.status.isSignedIn = true;
+  };
+
+  public signOut() {
+    this._current.status.isSignedIn = false;
   };
 
   public update(id: number, col: string, val: Combinable): Promise<any> {

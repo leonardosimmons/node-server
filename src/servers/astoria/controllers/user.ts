@@ -1,5 +1,6 @@
 
 import Express from 'express';
+import { httpError } from '../../../helpers/functions';
 import { HttpError } from '../../../utils/types';
 import { UserController } from '../models/User';
 import { NewUserToken, User, UserTableData } from '../utils/types';
@@ -44,16 +45,9 @@ export async function add(req: Express.Request, res: Express.Response, next: Exp
     }
   }
   catch(err) {
-    const error: HttpError = err;
-    error.statusCode = 500;
-    error.message = 'Unable to add user to database';
-    next(error);
+    const msg: string = 'Unable to add user to database';
+    next(httpError(err, msg));
   };
-};
-
-export async function remove(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
-{
-
 };
 
 export async function getAll(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
@@ -78,10 +72,8 @@ export async function getAll(_: Express.Request, res: Express.Response, next: Ex
     });
   }
   catch(err) {
-    const error: HttpError = err;
-    error.statusCode = 500;
-    error.message = 'Unable to retrieve users from database';
-    next(error);
+    const msg: string = 'Unable to retrieve users from database';
+    next(httpError(err, msg));
   }
 };
 
@@ -89,6 +81,53 @@ export async function get(req: Express.Request, res: Express.Response, next: Exp
 {
 
 };
+
+export async function signIn(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
+{
+  try {
+    const cntrl: UserController = new UserController();
+
+    if(req.body) {
+      console.log(req.body)
+      const id: string = req.body.u_Id as string;
+      const col: string = 'signed_in';
+
+      cntrl.update(parseInt(id), col, 1);
+
+      res.status(200).json({
+        message: 'Success',
+        payload: true
+      });
+    }
+  }
+  catch(err) {
+    const msg: string = 'Unable to sign in user';
+    next(httpError(err, msg));
+  }
+};
+
+export async function signOut(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
+{
+  try {
+    const cntrl: UserController = new UserController();
+
+    if(req.body) {
+      const id: string = req.body.u_Id as string;
+      const col: string = 'signed_in';
+
+      cntrl.update(parseInt(id), col, 0);
+
+      res.status(200).json({
+        message: 'success',
+        payload: false
+      });
+    }
+  }
+  catch(err) {
+    const msg: string = 'Unable to sign out user';
+    next(httpError(err, msg));
+  }
+}
 
 export async function update(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {

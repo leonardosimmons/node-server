@@ -6,8 +6,8 @@ import { getObjVal } from '../helpers/functions';
 
 export interface DatabaseControllerInterface 
 {
-  create<T>(table: string, rows: string, holder: string, values: T): void;
-  createTable(name: string, cols: string): void;
+  create<T>(table: string, rows: string, holder: string, values: T): Promise<any>;
+  createTable(name: string, cols: string): Promise<any>;
   delete: (table: string, id: Combinable) => Promise<any>;
   fetchAll: (table: string) => Promise<any>;
   fetchById: (table: string, id: Combinable) => Promise<any>;
@@ -38,15 +38,15 @@ class DatabaseController implements DatabaseControllerInterface
     return p;
   };
   
-  public create<T>(table: string, cols: string, values: T): void {
+  public create<T>(table: string, cols: string, values: T): Promise<any>{
     const ph: string = this.createPlaceholder(cols);
     const val: Array<T[keyof T] | null> = getObjVal(values);
     
-    this._db.execute(`INSERT INTO ${table} (${cols}) VALUES (${ph})`, val);
+    return this._db.execute(`INSERT INTO ${table} (${cols}) VALUES (${ph})`, val);
   };
 
-  public createTable(name: string, cols: string): void {
-    this._db.execute(`CREATE TABLE ${name} (${cols})`);
+  public createTable(name: string, cols: string): Promise<any> {
+    return this._db.execute(`CREATE TABLE IF NOT EXISTS ${name} (${cols})`);
   };
 
   public delete(table: string, id: Combinable): Promise<any> {

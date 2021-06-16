@@ -1,4 +1,4 @@
-import { Combinable } from '../utils/types';
+import { Combinable, HttpError } from '../utils/types';
 
 /**
  * returns an array of the values contained within the given object
@@ -17,6 +17,19 @@ export function getObjVal<T>(obj: T): Array<T[keyof T] | null> {
   }
 
   return v;
+};
+
+/**
+ * Handles http errors
+ * @param err 
+ * @param msg 
+ * @returns 
+ */
+export function httpError(err: Error, msg?: string): HttpError {
+  const error: HttpError = err;
+  error.statusCode = 502;
+  error.message = msg ? msg : 'Something went wrong';
+  return error;
 };
 
 /**
