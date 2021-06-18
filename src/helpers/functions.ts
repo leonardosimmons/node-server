@@ -29,15 +29,9 @@ export function getObjVal<T>(obj: T): Array<T[keyof T] | null> {
  * Generates a JSON Web Token
  * @param username 
  */
-export function generateAccessToken(username: string, expires?: Combinable) {
-  return jwt.sign({ 
-      username: username 
-    }, 
-    TOKEN_SECRET, { 
-      expiresIn: expires ? `${expires}s` : '1800s'
-    }
-  );
-}
+export function generateAccessToken<T>(data: T, expires: string) {
+  return jwt.sign({...data}, TOKEN_SECRET, { expiresIn: expires });
+};
 
 /**
  * Generates and returns a hashed string

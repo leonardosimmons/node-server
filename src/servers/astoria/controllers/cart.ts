@@ -8,55 +8,60 @@ import { CartTableData } from '../utils/types';
 
 export async function addProductToCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
   try {
+    if(!req.body) {
+      res.statusCode = 404;
+      res.end('Error');
+      return;
+    }
+
     const cntrl: CartController = new CartController();
     const min: number = 100000000;
     const max: number = 999999999;
 
     let buffer: CartTableData | undefined;
 
-    if(req.body) {
-      const r: Partial<CartTableData> = {
-        u_id: req.body.u_id,
-        prod_id: req.body.prod_id,
-        size: req.body.size,
-        quantity: req.body.quantity
-      };
-      
-      const [ data ] = await cntrl.fetchAll();
-      
-      await data.forEach((p: CartTableData) => {
-        if(p.u_id === r.u_id && p.prod_id === r.prod_id && p.size === r.size) {
-          buffer = p;
-        }
-      });
-      
-      if(!buffer) {
-        const token: CartTableData = {
-          id: randNum(min, max),
-          u_id: r.u_id!,
-          prod_id: r.prod_id!,
-          size: r.size!,
-          quantity: r.quantity!
-        }
-
-        if (token.u_id !== undefined) {
-          cntrl.addProduct(token);
-        }
-      } 
-
-      if (buffer) {
-        const newVal = parseInt(buffer.quantity) + parseInt(r.quantity as string);
-
-        if(newVal !== undefined) {
-          cntrl.updateProductQuantity(buffer.id, newVal);
-        }
+    const r: Partial<CartTableData> = {
+      u_id: req.body.u_id,
+      prod_id: req.body.prod_id,
+      size: req.body.size,
+      quantity: req.body.quantity
+    };
+    
+    const [ data ] = await cntrl.fetchAll();
+    
+    await data.forEach((p: CartTableData) => {
+      if(p.u_id === r.u_id && p.prod_id === r.prod_id && p.size === r.size) {
+        buffer = p;
+      }
+    });
+    
+    if(!buffer) {
+      const token: CartTableData = {
+        id: randNum(min, max),
+        u_id: r.u_id!,
+        prod_id: r.prod_id!,
+        size: r.size!,
+        quantity: r.quantity!
       }
 
-      res.status(200).json({
-        message: 'Success',
-        payload: true
-      });
+      if (token.u_id !== undefined) {
+        cntrl.addProduct(token);
+      }
+    } 
+
+    if (buffer) {
+      const newVal = parseInt(buffer.quantity) + parseInt(r.quantity as string);
+
+      if(newVal !== undefined) {
+        cntrl.updateProductQuantity(buffer.id, newVal);
+      }
     }
+
+    res.status(200).json({
+      message: 'Success',
+      payload: true
+    });
+    
   }
   catch(err) {
     const error: HttpError = err;
