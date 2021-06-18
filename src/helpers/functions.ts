@@ -1,6 +1,11 @@
 
 import { Combinable, HttpError } from '../utils/types';
 
+const jwt = require('jsonwebtoken');
+const {
+  TOKEN_SECRET
+} = process.env;
+
 /**
  * returns an array of the values contained within the given object
  * @param obj 
@@ -18,6 +23,29 @@ export function getObjVal<T>(obj: T): Array<T[keyof T] | null> {
   }
 
   return v;
+};
+
+/**
+ * Generates a JSON Web Token
+ * @param username 
+ */
+export function generateAccessToken(username: string, expires?: Combinable) {
+  return jwt.sign({ 
+      username: username 
+    }, 
+    TOKEN_SECRET, { 
+      expiresIn: expires ? `${expires}s` : '1800s'
+    }
+  );
+}
+
+/**
+ * Generates and returns a hashed string
+ * @param bytes 
+ * @returns 
+ */
+export function generateRandHash(bytes?: number): string {
+  return require('crypto').randomBytes(bytes ? bytes : 64).toString('hex');
 };
 
 /**
