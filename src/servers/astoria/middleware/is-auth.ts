@@ -1,5 +1,5 @@
 
-import Express from 'express';
+import { Request, Response, NextFunction} from 'express';
 import { HttpError } from '../../../utils/types';
 
 const jwt = require('jsonwebtoken');
@@ -9,25 +9,29 @@ const {
 } = process.env;
 
 
-function isAuth(req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+export function isAuth(req: Request, res: Response, next: NextFunction) {
   let decodedToken;
-  const token: string = req.get('Authorization')?.split(' ')[1] as string;
+  const authHeader: string = req.header('auth-token') as string;
 
-  try{
-    decodedToken = jwt.verify(token, TOKEN_SECRET);
-  }
-  catch(err) {
-    err.statusCode = 500;
-  }
+  if(authHeader) {
+    const token: string = authHeader.split(' ')[1] as string;
 
-  if (!decodedToken) {
-    const error: HttpError = new Error('Not Authenticated');
-    error.statusCode = 401;
-    throw error;
-  }
+    try{
+      decodedToken = jwt.verify(token, TOKEN_SECRET);
+    }
+    catch(err) {
+      err.statusCode = 500;
+    }
 
-  req.u_id = decodedToken.u_id;
+    if (!decodedToken) {
+      const error: HttpError = new Error('Not Authenticated. Token not recognzied');
+      error.statusCode = 401;
+      res.status(401).json({message: 'Token not recognized'});
+    }
+
+    res.locals.u_id = decodedToken.u_id;
+    console.log(decodedToken)
+  } 
+  
   next();
 };
-
-export { isAuth };
