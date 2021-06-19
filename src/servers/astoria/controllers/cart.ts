@@ -5,7 +5,6 @@ import { HttpError } from '../../../utils/types';
 import { CartController } from '../models/Cart';
 import { CartTableData } from '../utils/types';
 
-
 export async function addProductToCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
   try {
     if(!req.body) {
@@ -21,7 +20,7 @@ export async function addProductToCart(req: Express.Request, res: Express.Respon
     let buffer: CartTableData | undefined;
 
     const r: Partial<CartTableData> = {
-      u_id: req.body.u_id,
+      u_id: res.locals.u_id,
       prod_id: req.body.prod_id,
       size: req.body.size,
       quantity: req.body.quantity
