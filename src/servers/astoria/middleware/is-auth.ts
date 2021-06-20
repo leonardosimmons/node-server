@@ -13,7 +13,7 @@ export function isAuth(req: Request, res: Response, next: NextFunction) {
   let decodedToken;
   const authHeader: string = req.header('auth-token') as string;
 
-  if(authHeader) {
+  if (authHeader) {
     const token: string = authHeader.split(' ')[1] as string;
 
     try{
@@ -30,7 +30,6 @@ export function isAuth(req: Request, res: Response, next: NextFunction) {
     }
 
     res.locals.u_id = decodedToken.u_id;
-    console.log(decodedToken)
   } 
   
   next();

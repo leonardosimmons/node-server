@@ -55,6 +55,7 @@ export async function add(req: Express.Request, res: Express.Response, next: Exp
   };
 };
 
+
 export async function getAll(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   try {
@@ -82,10 +83,6 @@ export async function getAll(_: Express.Request, res: Express.Response, next: Ex
   }
 };
 
-export async function get(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
-{
-
-};
 
 export async function signIn(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
@@ -102,7 +99,7 @@ export async function signIn(req: Express.Request, res: Express.Response, next: 
     const col: string = 'signed_in';
 
     await cntrl.update(parseInt(u_id), col, 1);
-    const token: AccessToken = generateAccessToken({u_id}, '60s');
+    const token: AccessToken = generateAccessToken({u_id}, '1h');
 
     res.status(200).json({
       message: 'Success',
@@ -118,6 +115,7 @@ export async function signIn(req: Express.Request, res: Express.Response, next: 
     next(httpError(err, msg));
   }
 };
+
 
 export async function signOut(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
@@ -145,8 +143,3 @@ export async function signOut(req: Express.Request, res: Express.Response, next:
     next(httpError(err, msg));
   }
 }
-
-export async function update(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
-{
-
-};
