@@ -65,7 +65,7 @@ class DatabaseController implements DatabaseControllerInterface
     return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.type = ?`, [type]);
   };
 
-  public fetchByColumn(table: string, col: string, value: string): Promise<any> {
+  public fetchByColumn(table: string, col: string, value: Combinable): Promise<any> {
     return this._db.execute(`SELECT * FROM ${table} WHERE ${table}.${col} = ?`, [value]);
   };
 

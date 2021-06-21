@@ -180,6 +180,10 @@ export type UserTableData = {
   name: string;
   email?: string;
   image?: string;
+  signed_in?: {
+    type: string;
+    data: any;
+  };
 };
 
 export type UserInfo = {

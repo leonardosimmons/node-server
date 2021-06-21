@@ -79,7 +79,7 @@ class UserController implements UserControllerInterface
     return this._db.fetchAll(table.USERS);
   };
 
-  public fetch(col: string, val: string): Promise<any> {
+  public fetch(col: string, val: Combinable): Promise<any> {
     return this._db.fetchByColumn(table.USERS, col, val);
   };
 
