@@ -56,6 +56,25 @@ export async function add(req: Express.Request, res: Express.Response, next: Exp
 };
 
 
+export async function getUser(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
+  let user: Array<User> = [];
+  const cntrl: UserController = new UserController();
+  const loc: string = req.query.loc as string;
+  const val: string = req.query.val as string;
+
+  try {
+    const [ data ] = await cntrl.fetch(loc, val);
+    const user = data.map((u: UserTableData) => (cntrl.createToken(u)));
+
+    res.status(200).json({ message: 'Success', payload: user });
+  }
+  catch(err) {
+    const msg: string = 'Unable to retrieve user from database';
+    next(httpError(err, msg));
+  }
+};
+
+
 export async function getAll(_: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
 {
   try {
@@ -99,7 +118,7 @@ export async function signIn(req: Express.Request, res: Express.Response, next: 
     const col: string = 'signed_in';
 
     await cntrl.update(parseInt(u_id), col, 1);
-    const token: AccessToken = generateAccessToken({u_id}, '1h');
+    const token: AccessToken = generateAccessToken({u_id}, '12h');
 
     res.status(200).json({
       message: 'Success',
