@@ -140,6 +140,7 @@ export type ProductCartToken = {
   user: Partial<UserContext>;
   product: Product;
   order: {
+    id: number;
     size: string;
     quantity: number;
   };

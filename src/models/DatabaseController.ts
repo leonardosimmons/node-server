@@ -50,7 +50,7 @@ class DatabaseController implements DatabaseControllerInterface
   };
 
   public delete(table: string, id: Combinable): Promise<any> {
-    return this._db.execute(`DROP * FROM ${table} WHERE ${table}.id = ?`, [id]);
+    return this._db.execute(`DELETE FROM ${table} WHERE ${table}.id = ?`, [id]);
   };
 
   public fetchAll(table: string): Promise<any> {

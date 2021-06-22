@@ -23,7 +23,7 @@ class CartController implements CartControllerInterface
     return this._db.create(table.CART, rows, p);
   };
 
-  public createToken(u_id: number, product: Product, order: { size: string, quantity: number }): ProductCartToken {
+  public createToken(u_id: number, product: Product, order: { id: number, size: string, quantity: number }): ProductCartToken {
     return {
       user: { id: u_id },
       product,
