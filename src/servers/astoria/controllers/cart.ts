@@ -98,7 +98,7 @@ export async function getUserCart(req: Express.Request, res: Express.Response, n
     cartData.map((c: CartTableData) => {
       products.map((p: Product) => {
         if (parseInt(p.meta.id) === c.prod_id) {
-          const token: ProductCartToken = cartCntrl.createToken(parseInt(u_id), p, { size: c.size, quantity: parseInt(c.quantity) });
+          const token: ProductCartToken = cartCntrl.createToken(parseInt(u_id), p, { id: c.id, size: c.size, quantity: parseInt(c.quantity) });
           userCart.push(token);
         }
       });
@@ -119,11 +119,13 @@ export async function getUserCart(req: Express.Request, res: Express.Response, n
 };
 
 export async function removeProductFromCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
+  const id: string = req.query.order_id as string;
+  const cntrl: CartController = new CartController();
+
   try {
-    const u_id: string = res.locals.u_id;
-    const cntrl: CartController = new CartController();
+    await cntrl.removeProduct(parseInt(id));
 
-
+    res.status(200).json({ message: 'Product successfully removed' });
   }
   catch(err) {
     const error: HttpError = err;
