@@ -10,6 +10,8 @@ router.use('/add-product', isAuth, cartController.addProductToCart);
 
 router.use('/remove-product', isAuth, cartController.removeProductFromCart);
 
+router.use('/update-quantity', isAuth, cartController.updateProductQuantity);
+
 router.use('/user', isAuth, cartController.getUserCart);
 
 export default router;

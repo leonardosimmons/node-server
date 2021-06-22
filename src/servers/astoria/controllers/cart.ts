@@ -1,11 +1,10 @@
 
 import Express from 'express';
-import { parse } from 'path';
-import { randNum } from '../../../helpers/functions';
-import { HttpError } from '../../../utils/types';
-import { CartController } from '../models/Cart';
 import { ProductController } from '../models/Product';
+import { CartController } from '../models/Cart';
+import { HttpError } from '../../../utils/types';
 import { CartTableData, Product, ProductCartToken, ProductData } from '../utils/types';
+import { httpError, randNum } from '../../../helpers/functions';
 
 export async function addProductToCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
   try {
@@ -128,9 +127,33 @@ export async function removeProductFromCart(req: Express.Request, res: Express.R
     res.status(200).json({ message: 'Product successfully removed' });
   }
   catch(err) {
-    const error: HttpError = err;
-    error.statusCode = 502;
-    error.message = 'Unable to remove product from cart';
-    next(error);
+    const msg: string = 'Unable to remove product from cart';
+    next(httpError(err, msg));
   }
+};
+
+export async function updateProductQuantity(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
+  if(!req.body) {
+    res.statusCode = 404;
+    res.end('Error');
+    return;
+  }
+
+  const i: number = req.body.id;
+  const q: number = req.body.quantity; 
+  const cntrl: CartController = new CartController();
+
+  try {
+    if (i && q) {
+      await cntrl.updateProductQuantity(i, q);
+    }
+  }
+  catch(err) {
+    const msg: string = 'Unable to update product quantity.';
+    next(httpError(err, msg));
+  }
+
+  res.status(200).json({
+    message: 'Success'
+  })
 };

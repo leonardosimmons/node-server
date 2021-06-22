@@ -3,7 +3,7 @@ import Express from 'express';
 import { AccessToken } from '../../../utils/types';
 import { NewUserToken, User, UserTableData } from '../utils/types';
 
-import { UserController } from '../models/User';
+import { UserController } from '../models/user';
 import { generateAccessToken, httpError } from '../../../helpers/functions';
 
 
