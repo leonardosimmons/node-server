@@ -8,7 +8,8 @@ const router: Express.Router = Express.Router();
 
 router.use('/add-product', isAuth, cartController.addProductToCart);
 
-router.use('/remove-product', cartController.removeProductFromCart);
+router.use('/remove-product', isAuth, cartController.removeProductFromCart);
 
+router.use('/user', isAuth, cartController.getUserCart);
 
 export default router;

@@ -1,9 +1,11 @@
 
 import Express from 'express';
+import { parse } from 'path';
 import { randNum } from '../../../helpers/functions';
 import { HttpError } from '../../../utils/types';
 import { CartController } from '../models/Cart';
-import { CartTableData } from '../utils/types';
+import { ProductController } from '../models/Product';
+import { CartTableData, Product, ProductCartToken, ProductData } from '../utils/types';
 
 export async function addProductToCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
   try {
@@ -70,9 +72,58 @@ export async function addProductToCart(req: Express.Request, res: Express.Respon
   }
 };
 
+export async function getUserCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
+  let products: Array<Product> = [];
+  let userCart: Array<ProductCartToken> = [];
+  const u_id: string = res.locals.u_id;
+
+  const cartCntrl: CartController = new CartController();
+  const prodCntrl: ProductController = new ProductController();
+
+  try {
+    const [ cartData ] = await cartCntrl.fetchByUser(parseInt(u_id));
+    const [ prodData ] = await prodCntrl.fetchProducts();
+
+    // matches each prod_id with full product info
+    cartData.map((c: CartTableData) => {
+      prodData.map((p: ProductData) => {
+        if (parseInt(p.id) === c.prod_id) {
+          const token: Product = prodCntrl.createToken(p);
+          products.push(token);
+        }
+      })
+    });
+    
+    // Creates user's cart
+    cartData.map((c: CartTableData) => {
+      products.map((p: Product) => {
+        if (parseInt(p.meta.id) === c.prod_id) {
+          const token: ProductCartToken = cartCntrl.createToken(parseInt(u_id), p, { size: c.size, quantity: parseInt(c.quantity) });
+          userCart.push(token);
+        }
+      });
+    });
+
+
+    res.status(200).json({ 
+      message: 'Success', 
+      payload: userCart 
+    });
+  }
+  catch(err) {
+    const error: HttpError = err;
+    error.statusCode = 502;
+    error.message = 'Unable to retrieve the user\'s cart';
+    next(error);
+  }
+};
+
 export async function removeProductFromCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
   try {
-    
+    const u_id: string = res.locals.u_id;
+    const cntrl: CartController = new CartController();
+
+
   }
   catch(err) {
     const error: HttpError = err;
