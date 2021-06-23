@@ -73,6 +73,7 @@ export async function addProductToCart(req: Express.Request, res: Express.Respon
 
 export async function getUserCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
   let products: Array<Product> = [];
+  let buffer: Array<ProductCartToken> = [];
   let userCart: Array<ProductCartToken> = [];
   const u_id: string = res.locals.u_id;
 
@@ -98,15 +99,22 @@ export async function getUserCart(req: Express.Request, res: Express.Response, n
       products.map((p: Product) => {
         if (parseInt(p.meta.id) === c.prod_id) {
           const token: ProductCartToken = cartCntrl.createToken(parseInt(u_id), p, { id: c.id, size: c.size, quantity: parseInt(c.quantity) });
-          userCart.push(token);
+          buffer.push(token);
         }
       });
     });
 
+    // removes any duplicates
+    userCart = buffer.reduce((unique: any, o) => {
+      if(!unique.some((obj: any ) => obj.order.id === o.order.id)) {
+        unique.push(o);
+      }
+      return unique;
+    },[]);
 
     res.status(200).json({ 
       message: 'Success', 
-      payload: userCart 
+      payload: userCart
     });
   }
   catch(err) {
@@ -157,3 +165,53 @@ export async function updateProductQuantity(req: Express.Request, res: Express.R
     message: 'Success'
   })
 };
+
+/* 
+export async function getUserCart(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void> {
+  let products: Array<Product> = [];
+  let userCart: Array<ProductCartToken> = [];
+  const u_id: string = res.locals.u_id;
+
+  const cartCntrl: CartController = new CartController();
+  const prodCntrl: ProductController = new ProductController();
+
+  try {
+    const [ cartData ] = await cartCntrl.fetchByUser(parseInt(u_id));
+    const [ prodData ] = await prodCntrl.fetchProducts();
+
+    // matches each prod_id with full product info
+    cartData.map((c: CartTableData) => {
+      prodData.map((p: ProductData) => {
+        if (parseInt(p.id) === c.prod_id) {
+          const token: Product = prodCntrl.createToken(p);
+          products.push(token);
+        }
+      })
+    });
+    
+    // Creates user's cart
+    cartData.map((c: CartTableData) => {
+      products.map((p: Product) => {
+        if (parseInt(p.meta.id) === c.prod_id) {
+          const token: ProductCartToken = cartCntrl.createToken(parseInt(u_id), p, { id: c.id, size: c.size, quantity: parseInt(c.quantity) });
+          userCart.push(token);
+        }
+      });
+    });
+
+
+    res.status(200).json({ 
+      message: 'Success', 
+      payload: userCart 
+    });
+  }
+  catch(err) {
+    const error: HttpError = err;
+    error.statusCode = 502;
+    error.message = 'Unable to retrieve the user\'s cart';
+    next(error);
+  }
+};
+
+
+*/
