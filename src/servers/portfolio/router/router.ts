@@ -8,7 +8,7 @@ const router: Express.Router = Express.Router();
 
 const transporter = nodemailer.createTransport(sendGridTransport({
   auth: {
-    api_key: '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'
+    api_key: process.env.EMAIL_API_KEY
   }
 }));
 
@@ -28,7 +28,7 @@ router.use('/contact-me-form-submit', (req: Express.Request, res: Express.Respon
         subject: sub,
         html: `
           <h1>New Contact\n</h1>
-          <ul>
+          <ul style="list-style-type:none">
             <li><p>first name: ${fn}</p></li>
             <li><p>last name: ${ln}</p></li>
             <li><p>subject: ${sub}</p></li>
