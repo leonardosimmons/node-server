@@ -9,6 +9,7 @@ import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
 import testRoutes from './test/router';
 import astoriaRoutes from './servers/astoria/router';
+import portfolioRoutes from './servers/portfolio/router';
 
 const {
   PORT,
@@ -28,6 +29,7 @@ server.use(Express.static(Path.join(__dirname, 'public')));
 
 /* ---------------------  ROUTES  --------------------- */
 server.use(headerRoutes);
+server.use('/portfolio', portfolioRoutes);
 server.use('/astoria', astoriaRoutes);
 server.use('/test', testRoutes);
 server.use(errorRoutes);
