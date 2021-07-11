@@ -4,11 +4,16 @@ import Express from 'express';
 import nodemailer from 'nodemailer';
 const sendGridTransport = require('nodemailer-sendgrid-transport');
 
+const {
+  EMAIL_API_KEY,
+  EMAIL_SENDER
+} = process.env;
+
 const router: Express.Router = Express.Router();
 
 const transporter = nodemailer.createTransport(sendGridTransport({
   auth: {
-    api_key: process.env.EMAIL_API_KEY
+    api_key: EMAIL_API_KEY
   }
 }));
 
@@ -23,8 +28,8 @@ router.use('/contact-me-form-submit', (req: Express.Request, res: Express.Respon
 
     if (msg) {
       transporter.sendMail({
-        to: process.env.EMAIL_SENDER as string,
-        from: process.env.EMAIL_SENDER as string,
+        to: EMAIL_SENDER as string,
+        from: EMAIL_SENDER as string,
         subject: sub,
         html: `
           <h1>New Contact\n</h1>
