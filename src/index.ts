@@ -5,6 +5,7 @@ import Express from 'express';
 import { consoleText } from './helpers/definitions'; 
 
 import headerRoutes from './routes/headers';
+import welcomeRoutes from './routes/welcome';
 import errorRoutes from './routes/error';
 import astoriaRoutes from './servers/astoria/router/router';
 import portfolioRoutes from './servers/portfolio/router/router';
@@ -26,6 +27,7 @@ server.use(Express.urlencoded({ extended: false }));
 
 /* ---------------------  ROUTES  --------------------- */
 server.use(headerRoutes);
+server.use('/', welcomeRoutes);
 server.use('/portfolio', portfolioRoutes);
 server.use('/astoria', astoriaRoutes);
 server.use(errorRoutes);
