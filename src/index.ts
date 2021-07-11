@@ -2,7 +2,6 @@
 if (process.env.NODE_ENV !== 'production') { require('dotenv').config(); }
 
 import Express from 'express';
-import Path from 'path';
 import { consoleText } from './helpers/definitions'; 
 
 import headerRoutes from './routes/headers';
@@ -23,7 +22,6 @@ const SERVER_PORT: string = PORT as string || DEV_PORT as string;
 /* ---------------------  PARSERS  -------------------- */
 server.use(Express.json());
 server.use(Express.urlencoded({ extended: false }));
-server.use(Express.static(Path.join(__dirname, 'public')));
 
 
 /* ---------------------  ROUTES  --------------------- */

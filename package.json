@@ -6,9 +6,8 @@
   "engines": { "node": "12.18.4"},
   "scripts": {
     "start": "node dist/index.js",
-    "postinstall": "tsc && mv -i -v public dist/ && rm -v -rf src",
+    "postinstall": "tsc",
     "start-server": "node src/index.ts",
-    "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
