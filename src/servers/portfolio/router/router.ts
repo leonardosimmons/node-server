@@ -44,7 +44,7 @@ router.use('/contact-me-form-submit', (req: Express.Request, res: Express.Respon
       });
     }
 
-    res.status(200).json({
+    res.status(201).json({
       message: 'Success'
     });
   }
