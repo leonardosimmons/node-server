@@ -7,7 +7,6 @@ import { consoleText } from './helpers/definitions';
 
 import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
-import testRoutes from './test/router';
 import astoriaRoutes from './servers/astoria/router';
 import portfolioRoutes from './servers/portfolio/router';
 
@@ -31,7 +30,6 @@ server.use(Express.static(Path.join(__dirname, 'public')));
 server.use(headerRoutes);
 server.use('/portfolio', portfolioRoutes);
 server.use('/astoria', astoriaRoutes);
-server.use('/test', testRoutes);
 server.use(errorRoutes);
 
 
