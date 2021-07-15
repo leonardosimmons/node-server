@@ -1,6 +1,6 @@
 
+import db from '../../../../utils/database';
 import { DatabaseController } from '../../../../models/DatabaseController';
-import db from '../../utils/database';
 
 import { MobileNavbarInterface } from '../../utils/interfaces';
 import { MobileNavbarData, NavbarToken, SqlData } from '../../utils/types';

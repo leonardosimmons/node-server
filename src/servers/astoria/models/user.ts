@@ -1,5 +1,5 @@
 
-import db from '../utils/database';
+import db from '../../../utils/database';
 import { DatabaseController } from '../../../models/DatabaseController';
 import { NewUserToken, User, UserContext, UserTableData } from '../utils/types';
 import { Combinable } from '../../../utils/types';
