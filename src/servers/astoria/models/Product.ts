@@ -2,6 +2,7 @@
 import db from '../../../utils/database';
 import { DatabaseController } from "../../../models/DatabaseController";
 import { Product, ProductData } from '../utils/types';
+import { table } from '../utils/keys';
 
 
 interface ProductInterface {
@@ -44,11 +45,11 @@ class ProductController implements ProductInterface
   };
 
   public fetchProducts(): Promise<any> {
-    return this._db.fetchAll('products');
+    return this._db.fetchAll(table.PRODUCTS);
   };
 
   public fetchProduct(col: string, val: string): Promise<any> {
-    return this._db.fetchByColumn('products', col, val)
+    return this._db.fetchByColumn(table.PRODUCTS, col, val)
   };
 };
 
