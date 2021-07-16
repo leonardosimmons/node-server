@@ -3,19 +3,26 @@ import Express from 'express';
 import { HttpError } from '../utils/types';
 
 import { randNum } from '../helpers/functions';
+import { HashController } from '../models/HashController';
+import { HashToken } from '../servers/astoria/utils/types';
 
 
 export async function test(req: Express.Request, res: Express.Response, next: Express.NextFunction) 
 {
   try {
-    const min: number = 100000000;
-    const max: number = 999999999;
+    const hasher: HashController = new HashController();
 
-    const num: number = randNum(min, max);
+    const origPw: string = 'John Snow';
+    const origToken: HashToken = hasher.hashPassword(origPw);
+
+    const testPw: string = 'John Snow';
+
+    const result = hasher.compare(testPw, origToken);
+
 
     res.status(200).json({
       message: 'Success',
-      payload: num
+      payload: 'test'
     });
   }
   catch(err) {
