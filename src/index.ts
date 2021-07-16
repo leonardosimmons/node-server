@@ -8,6 +8,10 @@ import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
 import astoriaRoutes from './servers/astoria/router/router';
 import portfolioRoutes from './servers/portfolio/router/router';
+<<<<<<< HEAD
+=======
+import testRoutes from './test/router';
+>>>>>>> production
 
 const {
   PORT,

@@ -1,5 +1,5 @@
 
-import db from '../../utils/database';
+import db from '../../../../utils/database';
 
 import { DesktopNavBarData, NamedLink, NavbarToken, SqlData } from '../../utils/types';
 import { DesktopNavbarInterface } from '../../utils/interfaces';

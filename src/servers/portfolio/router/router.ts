@@ -4,11 +4,12 @@ import Express from 'express';
 import nodemailer from 'nodemailer';
 const sendGridTransport = require('nodemailer-sendgrid-transport');
 
+
 const router: Express.Router = Express.Router();
 
 const transporter = nodemailer.createTransport(sendGridTransport({
   auth: {
-    api_key: process.env.EMAIL_API_KEY
+    api_key: process.env.EMAIL_API_KEY as string
   }
 }));
 

@@ -1,5 +1,5 @@
 
-import db from '../../utils/database';
+import db from '../../../../utils/database';
 import { DatabaseController } from "../../../../models/DatabaseController";
 import { IndexPageHeaderData, IndexPageStaticData, SqlData } from '../../utils/types';
 
