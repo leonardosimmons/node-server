@@ -8,10 +8,7 @@ import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
 import astoriaRoutes from './servers/astoria/router/router';
 import portfolioRoutes from './servers/portfolio/router/router';
-<<<<<<< HEAD
-=======
 import testRoutes from './test/router';
->>>>>>> production
 
 const {
   PORT,
@@ -32,6 +29,7 @@ server.use(Express.urlencoded({ extended: false }));
 server.use(headerRoutes);
 server.use('/portfolio', portfolioRoutes);
 server.use('/astoria', astoriaRoutes);
+server.use('/test', testRoutes);
 server.use(errorRoutes);
 
 
