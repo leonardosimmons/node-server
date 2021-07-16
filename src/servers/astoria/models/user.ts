@@ -67,7 +67,7 @@ class UserController implements UserControllerInterface
   };
 
   public create(values: NewUserToken): void {
-    const rows: string = 'id, name, email, image';
+    const rows: string = values.password ? 'id, name, email, image, password' : 'id, name, email, image';
     this._db.create(table.USERS, rows, values);
   };
 

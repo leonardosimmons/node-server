@@ -33,6 +33,11 @@ export type Button = {
 
 export type Combinable = string | number;
 
+export type HashToken = {
+  salt: string;
+  hashedValue: string;
+};
+
 export type Image = {
   src: string;
   alt: string;
@@ -212,4 +217,5 @@ export type NewUserToken = {
   name: string;
   email: string;
   image: string;
+  password?: string;
 };
