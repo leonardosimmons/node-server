@@ -1,10 +1,11 @@
 
 import Express from 'express';
 import { AccessToken } from '../../../utils/types';
-import { NewUserToken, User, UserTableData } from '../utils/types';
+import { HashToken, NewUserToken, User, UserTableData } from '../utils/types';
 
 import { UserController } from '../models/user';
 import { generateAccessToken, httpError } from '../../../helpers/functions';
+import { HashController } from '../../../models/HashController';
 
 
 export async function add(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
@@ -161,4 +162,55 @@ export async function signOut(req: Express.Request, res: Express.Response, next:
     const msg: string = 'Unable to sign out user';
     next(httpError(err, msg));
   }
+}
+
+export async function signUp(req: Express.Request, res: Express.Response, next: Express.NextFunction): Promise<void>
+{
+  try {
+    if (!req.body) {
+      res.statusCode = 404;
+      res.end('Error');
+      return;
+    }
+
+    const cntrl: UserController = new UserController();
+    const hasher: HashController = new HashController();
+
+    const name: string = req.body.name;
+    const email: string = req.body.email;
+    const image: string = req.body.image;
+    const tempPw: string = req.body.password;
+
+    await cntrl.generateId()
+    .then((n: number) => {
+      const id: number = n
+      
+      if (name) {
+        const hash: HashToken = hasher.hashPassword(tempPw);
+
+        const newUser: NewUserToken = {id, name, email, image, password: hash.hashedValue};
+        cntrl.create(newUser);
+        
+        return newUser;
+      }
+    })
+    .then((user) => {
+      res.status(201).json({
+        message: 'User successfully added to the database',
+        payload: {
+          id: user?.id as number,
+          info: {
+            name: user?.name as string,
+            email: user?.email as string,
+            image: user?.image as string
+          }
+        }
+      });
+    })
+    .catch(err => { throw new Error(err)}) 
+  }
+  catch(err) {
+    const msg: string = 'Unable to add user to database';
+    next(httpError(err, msg));
+  };
 }

@@ -12,6 +12,8 @@ router.use('/sign-in', user.signIn);
 
 router.use('/sign-out', user.signOut);
 
+router.use('/sign-up', user.signUp);
+
 router.use('/', user.getUser);
 
 
