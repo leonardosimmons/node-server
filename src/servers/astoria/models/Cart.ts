@@ -1,5 +1,5 @@
 
-import db from '../utils/database';
+import db from '../../../utils/database';
 import { DatabaseController } from '../../../models/DatabaseController';
 import { table } from '../utils/keys';
 import { CartTableData, Product, ProductCartToken } from '../utils/types';
