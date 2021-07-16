@@ -2,13 +2,12 @@
 if (process.env.NODE_ENV !== 'production') { require('dotenv').config(); }
 
 import Express from 'express';
-import Path from 'path';
 import { consoleText } from './helpers/definitions'; 
 
 import headerRoutes from './routes/headers';
 import errorRoutes from './routes/error';
-import astoriaRoutes from './servers/astoria/router';
-import portfolioRoutes from './servers/portfolio/router';
+import astoriaRoutes from './servers/astoria/router/router';
+import portfolioRoutes from './servers/portfolio/router/router';
 
 const {
   PORT,
@@ -23,7 +22,6 @@ const SERVER_PORT: string = PORT as string || DEV_PORT as string;
 /* ---------------------  PARSERS  -------------------- */
 server.use(Express.json());
 server.use(Express.urlencoded({ extended: false }));
-server.use(Express.static(Path.join(__dirname, 'public')));
 
 
 /* ---------------------  ROUTES  --------------------- */
